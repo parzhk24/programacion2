@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio Académico | Programación II</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --surface-hover: #334155;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --secondary: #10b981;
+            --datacamp-color: #03ef62;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0 4rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .badge-hero {
+            display: inline-block;
+            background-color: rgba(59, 130, 246, 0.15);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.025em;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--surface-color);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--surface-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Section Layout */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.75rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #475569;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-top {
+            margin-bottom: 1.25rem;
+        }
+
+        .card-header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-assignment {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .tag-datacamp {
+            background: rgba(3, 239, 98, 0.15);
+            color: #03ef62;
+            border: 1px solid rgba(3, 239, 98, 0.3);
+        }
+
+        .tag-project {
+            background: rgba(168, 85, 247, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .card-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Tech pills */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1.25rem 0;
+        }
+
+        .tech-pill {
+            font-size: 0.75rem;
+            background: rgba(15, 23, 42, 0.6);
+            color: #cbd5e1;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Card links */
+        .card-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-link {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: var(--transition);
+        }
+
+        .card-link:hover {
+            color: var(--primary);
+        }
+
+        /* DataCamp specific card styles */
+        .datacamp-logo-icon {
+            color: var(--datacamp-color);
+            font-size: 1.25rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0b1120;
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-socials a {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .footer-socials a:hover {
+            color: var(--primary);
+        }
+
+        /* Mobile Menu */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-code"></i> Portafolio<span>.dev</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#materias">Trabajos de Materia</a></li>
+                <li><a href="#datacamp">DataCamp</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sección Hero / Presentación -->
+    <header class="hero">
+        <div class="container hero-content">
+            <span class="badge-hero">
+                <i class="fa-solid fa-graduation-cap"></i> Programación II &bull; CUGDL
+            </span>
+            <h1>Hola, soy <span>Santiago Alvarez</span></h1>
+            <p>
+                Estudiante de Ciberseguridad. Bienvenido a mi portafolio donde comparto mis trabajos de la materia, cursos en DataCamp y proyectos de desarrollo de software.
+            </p>
+            <div class="hero-buttons">
+                <a href="#proyectos" class="btn btn-primary">
+                    <i class="fa-solid fa-diagram-project"></i> Ver Proyectos
+                </a>
+                <a href="https://github.com" target="_blank" class="btn btn-secondary">
+                    <i class="fa-brands fa-github"></i> Mi GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- SECCIÓN 1: Trabajos de la Materia -->
+        <section id="materias">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-book-bookmark" style="color: #60a5fa;"></i> Trabajos de la Materia
+                </h2>
+                <p class="section-subtitle">Actividades, prácticas de laboratorio y tareas de Programación II</p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Tarea 1 -->
+                <div class="card">
+                    <div class="card-top">
+                        <div class="card-header-meta">
+                            <span class="tag tag-assignment">Práctica #1</span>
+                            <span class="card-date">Semana 2</span>
+                        </div>
+                        <h3>Programación Orientada a Objetos</h3>
+                        <p>Implementación de clases, herencia, encapsulamiento y polimorfismo aplicada a un sistema de gestión.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">C++ / Java</span>
+                            <span class="tech-pill">POO</span>
+                            <span class="tech-pill">UML</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="#" class="card-link"><i class="fa-solid fa-folder-open"></i> Ver Código</a>
+                        <a href="#" class="card-link"><i class="fa-solid fa-file-lines"></i> Reporte</a>
+                    </div>
+                </div>
+
+                <!-- Tarea 2 -->
+                <div class="card">
+                    <div class="card-top">
+                        <div class="card-header-meta">
+                            <span class="tag tag-assignment">Práctica #2</span>
+                            <span class="card-date">Semana 5</span>
+                        </div>
+                        <h3>Estructuras de Datos Lineales</h3>
+                        <p>Desarrollo y análisis de listas enlazadas, pilas y colas con memoria dinámica.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">C++</span>
+                            <span class="tech-pill">Punteros</span>
+                            <span class="tech-pill">Estructuras</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="#" class="card-link"><i class="fa-solid fa-folder-open"></i> Ver Código</a>
+                        <a href="#" class="card-link"><i class="fa-solid fa-file-lines"></i> Reporte</a>
+                    </div>
+                </div>
+
+                <!-- Tarea 3 -->
+                <div class="card">
+                    <div class="card-top">
+                        <div class="card-header-meta">
+                            <span class="tag tag-assignment">Práctica #3</span>
+                            <span class="card-date">Semana 8</span>
+                        </div>
+                        <h3>Algoritmos de Búsqueda y Ordenamiento</h3>
+                        <p>Comparación de complejidad temporal entre QuickSort, MergeSort y búsqueda binaria.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Algoritmos</span>
+                            <span class="tech-pill">Big-O</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="#" class="card-link"><i class="fa-solid fa-folder-open"></i> Ver Código</a>
+                        <a href="#" class="card-link"><i class="fa-solid fa-file-lines"></i> Reporte</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: Cursos de DataCamp -->
+        <section id="datacamp">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-certificate datacamp-logo-icon"></i> Cursos de DataCamp
+                </h2>
+                <p class="section-subtitle">Capacitación continua y certificaciones en ciencia de datos y programación</p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Curso DataCamp 1 -->
+                <div class="card">
+                    <div class="card-top">
+                        <div class="card-header-meta">
+                            <span class="tag tag-datacamp">Certificado</span>
+                            <span class="card-date">Completado</span>
+                        </div>
+                        <h3>Introduction to Python</h3>
+                        <p>Fundamentos del lenguaje Python, manipulación de variables, listas, funciones y paquetes como NumPy.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Python</span>
+                            <span class="tech-pill">NumPy</span>
+                            <span class="tech-pill">Básico</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://www.datacamp.com" target="_blank" class="card-link">
+                            <i class="fa-solid fa-award"></i> Ver Certificado
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Curso DataCamp 2 -->
+                <div class="card">
+                    <div class="card-top">
+                        <div class="card-header-meta">
+                            <span class="tag tag-datacamp">Certificado</span>
+                            <span class="card-date">Completado</span>
+                        </div>
+                        <h3>Intermediate Python</h3>
+                        <p>Estructuras de control, diccionarios, bucles y manipulación de datos con pandas y visualizaciones con Matplotlib.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Pandas</span>
+                            <span class="tech-pill">Matplotlib</span>
+                            <span class="tech-pill">Lógica</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://www.datacamp.com" target="_blank" class="card-link">
+                            <i class="fa-solid fa-award"></i> Ver Certificado
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Curso DataCamp 3 -->
+                <div class="card">
+                    <div class="card-top">
+                        <div class="card-header-meta">
+                            <span class="tag tag-datacamp">En Progreso</span>
+                            <span class="card-date">2026</span>
+                        </div>
+                        <h3>Data Manipulation with pandas</h3>
+                        <p>Transformación, agregación, ordenamiento e indexación avanzada de conjuntos de datos con Pandas.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Pandas</span>
+                            <span class="tech-pill">DataFrames</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://www.datacamp.com" target="_blank" class="card-link">
+                            <i class="fa-solid fa-spinner"></i> En curso
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: Proyectos -->
+        <section id="proyectos">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-rocket" style="color: #c084fc;"></i> Proyectos
+                </h2>
+                <p class="section-subtitle">Aplicaciones y proyectos integradores desarrollados durante el semestre</p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- Proyecto 1 -->
+                <div class="card">
+                    <div class="card-top">
+                        <div class="card-header-meta">
+                            <span class="tag tag-project">Proyecto Final</span>
+                            <span class="card-date">Semestre 3</span>
+                        </div>
+                        <h3>Sistema de Gestión Escolar</h3>
+                        <p>Aplicación de escritorio con arquitectura modular para la administración de alumnos, materias y calificaciones.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">C++ / Java</span>
+                            <span class="tech-pill">Archivos / SQL</span>
+                            <span class="tech-pill">GUI</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="#" class="card-link"><i class="fa-brands fa-github"></i> Repositorio</a>
+                        <a href="#" class="card-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>
+                    </div>
+                </div>
+
+                <!-- Proyecto 2 -->
+                <div class="card">
+                    <div class="card-top">
+                        <div class="card-header-meta">
+                            <span class="tag tag-project">Integrador</span>
+                            <span class="card-date">2026</span>
+                        </div>
+                        <h3>Analizador de Datos con Python</h3>
+                        <p>Herramienta para carga de archivos CSV, procesamiento estadístico y generación automatizada de gráficas.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Python</span>
+                            <span class="tech-pill">Pandas</span>
+                            <span class="tech-pill">Seaborn</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="#" class="card-link"><i class="fa-brands fa-github"></i> Repositorio</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer / Contacto -->
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-socials">
+                <a href="https://github.com" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="mailto:tu.correo@alumnos.udg.mx" title="Correo"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+            <p>&copy; 2026 Portafolio de Programación II &bull; CUGDL. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
