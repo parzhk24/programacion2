@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guardia Digital: Ciudad Segura</title>
+<style>
+:root{--bg:#eef3f2;--card:#fff;--ink:#14302f;--mute:#5a7170;--line:#c9d8d6;--acc:#0b6f78;--accink:#fff;--code:#0a1418;--codeink:#d8f1ee;--ok:#1f8a4c;--okbg:#e2f4e9;--bad:#b3362f;--badbg:#fbe7e5;--warn:#c98a10;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1517;--card:#13262a;--ink:#e3f1ef;--mute:#9db7b4;--line:#2b4547;--acc:#4fc3cc;--accink:#06201f;--ok:#5fd18a;--okbg:#14301f;--bad:#ff8a80;--badbg:#3a1b1a;--warn:#e8b34a}}
+:root[data-theme="dark"]{--bg:#0b1517;--card:#13262a;--ink:#e3f1ef;--mute:#9db7b4;--line:#2b4547;--acc:#4fc3cc;--accink:#06201f;--ok:#5fd18a;--okbg:#14301f;--bad:#ff8a80;--badbg:#3a1b1a;--warn:#e8b34a}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:720px;margin:0 auto;padding:14px 14px 40px}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-weight:700;flex-wrap:wrap}
+.hud span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:.95rem}
+.hud button{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--ink);font-size:1rem}
+#scene{position:relative;height:190px;border-radius:14px;overflow:hidden;border:2px solid var(--line);background:radial-gradient(1.5px 1.5px at 20% 20%,#fff,transparent),radial-gradient(1.5px 1.5px at 60% 12%,#fff,transparent),radial-gradient(1px 1px at 82% 30%,#fff,transparent),radial-gradient(1px 1px at 38% 38%,#fff,transparent),linear-gradient(#0b1030,#1d2a5c 70%,#2b3f7a)}
+#ground{position:absolute;left:0;right:0;bottom:0;height:16px;background:#101a2e}
+#city{position:absolute;left:10px;bottom:16px;display:flex;gap:5px;align-items:flex-end;width:40%}
+.b{flex:1;border-radius:3px 3px 0 0;background:#25345f;background-image:repeating-linear-gradient(0deg,transparent 0 9px,#ffd86b 9px 15px),repeating-linear-gradient(90deg,transparent 0 6px,#25345f 6px 9px);transition:filter .4s,background-color .4s}
+.b.off{background-image:none;background-color:#141c36;filter:grayscale(1)}
+#th{position:absolute;bottom:34px;font-size:46px;line-height:1;transition:left .6s ease,transform .3s,opacity .5s;left:84%;filter:drop-shadow(0 0 8px #ff4d4d)}
+#th.boss{font-size:64px}
+#th.bob{animation:bob 1s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+#th.dead{opacity:0;transform:scale(1.8)}
+#laser{position:absolute;left:44%;bottom:60px;height:5px;width:0;background:#7ff;box-shadow:0 0 10px #7ff;border-radius:3px;transition:width .2s}
+#msg{position:absolute;top:8px;left:0;right:0;text-align:center;color:#fff;font-weight:700;text-shadow:0 1px 4px #000;font-size:.95rem;padding:0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:12px}
+.card h2{font-size:1.1rem;margin:0 0 6px}
+.card p{margin:0 0 12px}
+pre{background:var(--code);color:var(--codeink);border-radius:10px;padding:14px;overflow-x:auto;margin:0 0 14px;font:14.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre mark{background:transparent;color:var(--warn);border-bottom:2px dashed var(--warn)}
+pre mark.f{color:var(--ok);border-bottom:2px solid var(--ok)}
+.opts{display:grid;gap:8px}
+button{font:inherit;cursor:pointer}
+.opt{text-align:left;background:var(--bg);color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font:14.5px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.opt:hover:not(:disabled){border-color:var(--acc)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.opt.good{border-color:var(--ok);background:var(--okbg)}
+.opt:disabled{cursor:default}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.fb{margin-top:14px;padding:12px 14px;border-radius:10px;display:none}
+.fb.show{display:block}
+.fb.bad{background:var(--badbg);border-left:5px solid var(--bad)}
+.fb.good{background:var(--okbg);border-left:5px solid var(--ok)}
+.fb strong{display:block;margin-bottom:2px}
+.go{margin-top:14px;background:var(--acc);color:var(--accink);border:0;border-radius:10px;padding:11px 20px;font-weight:700}
+.go[hidden]{display:none}
+.end{text-align:center}
+.end .big{font-size:2.4rem;font-weight:800;margin:6px 0}
+.shake{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+<div class="hud"><span id="sc">Puntos: 0</span><span id="cb">Racha: 0</span><span id="pr">Reto 1/4</span><button id="mu" aria-label="Sonido">🔊</button></div>
+<div id="scene"><div id="msg"></div><div id="city"></div><div id="ground"></div><div id="laser"></div><div id="th">📧</div></div>
+<section class="card" id="game" aria-live="polite"></section>
+</main>
+<script>
+var CH=[
+{lvl:"Nivel 1: Clases y objetos",t:"El resumen de un correo",p:"Cada correo es un objeto con su propio remitente. ¿Cómo lo lee el método?",e:"📧",
+code:"class Mensaje:\n    def __init__(self, remitente, asunto):\n        self.remitente = remitente\n        self.asunto = asunto\n\n    def resumen(self):\n        return f\"De {____}: {self.asunto}\"",
+o:[["self.remitente",1,"El atributo vive dentro del objeto, y dentro de un método se accede con self. Así cada correo muestra su propio remitente."],["remitente",0,"Dentro de resumen() no existe una variable local llamada remitente: ese dato se guardó en el objeto. Sin self, Python lanza NameError."],["Mensaje.remitente",0,"Así buscarías un atributo de la clase. Pero remitente es distinto en cada correo, por eso es un atributo del objeto y se accede con self."]]},
+{lvl:"Nivel 2: Herencia",t:"Un correo de phishing es un Mensaje",p:"CorreoPhishing hereda de Mensaje. Reutiliza el constructor del padre en lugar de repetirlo.",e:"🦠",
+code:"class CorreoPhishing(Mensaje):\n    def __init__(self, remitente, asunto, url):\n        ____\n        self.url = url",
+o:[["super().__init__(remitente, asunto)",1,"super() llama al constructor de Mensaje, que guarda remitente y asunto. Después solo agregas lo nuevo: la url."],["super().__init__()",0,"Mensaje.__init__ necesita remitente y asunto. Sin ellos Python lanza TypeError por argumentos faltantes."],["self.remitente = remitente",0,"Guarda el remitente, pero asunto se queda sin asignar y repites código que el padre ya tiene. La herencia sirve justo para evitar eso."]]},
+{lvl:"Nivel 3: Clases abstractas",t:"Cumplir el protocolo de defensa",p:"ModuloDefensa obliga a todos sus hijos a implementar aislar_amenaza(). Completa la clase hija.",e:"👾",
+code:"from abc import ABC, abstractmethod\n\nclass ModuloDefensa(ABC):\n    @abstractmethod\n    def aislar_amenaza(self):\n        pass\n\nclass FirewallMetro(ModuloDefensa):\n    ____\n        return \"Tráfico bloqueado\"",
+o:[["def aislar_amenaza(self):",1,"Mismo nombre que el método abstracto y con self. Con esto FirewallMetro cumple el protocolo y ya se pueden crear objetos."],["def aislar(self):",0,"El nombre es distinto, así que aislar_amenaza() sigue sin implementarse. Al crear FirewallMetro() Python lanza TypeError."],["def aislar_amenaza():",0,"Falta self. Al llamarlo sobre un objeto, Python le pasa el objeto como primer argumento y lanza TypeError."]]},
+{lvl:"Jefe final",t:"¿Qué ocurre aquí?",p:"El jefe intenta crear un objeto directamente de la clase abstracta.",e:"🐉",boss:1,
+code:"modulo = ModuloDefensa()\n\n# Resultado: ____",
+o:[["TypeError: no se puede instanciar una clase abstracta",1,"Una clase abstracta es solo un molde del protocolo. Para crear objetos necesitas una clase hija que implemente todos los métodos abstractos."],["Se crea un objeto normal",0,"Si fuera así, la clase abstracta no obligaría a nada. Python lo impide mientras queden métodos abstractos sin implementar."],["Se crea el objeto y aislar_amenaza() devuelve None",0,"El objeto nunca llega a crearse, así que no hay método que ejecutar. El error aparece en la línea de la instanciación."]]}
+];
+var i,lives,score,streak,first,tried,snd=true,ac,H=[70,105,85,125,95];
+var $=function(x){return document.getElementById(x)},game=$("game"),th=$("th"),city=$("city"),msg=$("msg");
+H.forEach(function(h){var b=document.createElement("div");b.className="b";b.style.height=h+"px";city.appendChild(b)});
+function beep(f,d,t){if(!snd)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain();o.type=t||"square";o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+$("mu").onclick=function(){snd=!snd;this.textContent=snd?"🔊":"🔇"};
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
+function hud(){$("sc").textContent="Puntos: "+score;$("cb").textContent="Racha: "+streak;$("pr").textContent=i<CH.length?"Reto "+(i+1)+"/"+CH.length:"Fin";
+[].forEach.call(city.children,function(b,j){b.className="b"+(j<lives?"":" off")})}
+function start(){i=0;lives=5;score=0;streak=0;first=0;game.className="card";render()}
+function render(){
+var c=CH[i];tried=false;hud();game.textContent="";
+th.className=c.boss?"boss bob":"bob";th.textContent=c.e;th.style.left="84%";$("laser").style.width="0";
+msg.textContent=c.boss?"¡Llegó el jefe final!":"¡Amenaza detectada!";if(c.boss)beep(120,.4,"sawtooth");
+game.appendChild(el("h2","",c.lvl+": "+c.t));game.appendChild(el("p","",c.p));
+var pre=el("pre"),parts=c.code.split("____");
+pre.appendChild(document.createTextNode(parts[0]));var m=el("mark","","____");pre.appendChild(m);pre.appendChild(document.createTextNode(parts[1]));
+game.appendChild(pre);
+var box=el("div","opts"),fb=el("div","fb"),nx=el("button","go",i<CH.length-1?"Siguiente amenaza":"Ver resultado");nx.hidden=true;
+c.o.forEach(function(o){var bt=el("button","opt",o[0]);
+bt.onclick=function(){
+fb.className="fb show "+(o[1]?"good":"bad");fb.textContent="";
+fb.appendChild(el("strong","",o[1]?"¡Impacto directo!":"Fallaste, la amenaza avanza"));fb.appendChild(document.createTextNode(o[2]));
+if(o[1]){bt.classList.add("good");m.textContent=o[0];m.className="f";
+[].forEach.call(box.children,function(x){x.disabled=true});
+if(!tried){first++;streak++}else streak=0;
+score+=(tried?50:100)+(streak>1?streak*10:0);
+$("laser").style.width=(parseFloat(th.style.left)-44)+"%";beep(880,.12);
+setTimeout(function(){th.textContent="💥";th.className="dead";$("laser").style.width="0";beep(1320,.2,"triangle")},250);
+msg.textContent=streak>1?"¡Racha x"+streak+"!":"Amenaza neutralizada";nx.hidden=false;nx.focus();hud()}
+else{bt.classList.add("bad");bt.disabled=true;tried=true;streak=0;lives--;beep(150,.3,"sawtooth");
+th.style.left=Math.max(46,parseFloat(th.style.left)-14)+"%";msg.textContent="¡Un edificio perdió energía!";
+game.classList.add("shake");setTimeout(function(){game.classList.remove("shake")},400);hud();
+if(lives<=0)setTimeout(over,900)}};
+box.appendChild(bt)});
+game.appendChild(box);game.appendChild(fb);game.appendChild(nx);
+nx.onclick=function(){i++;i<CH.length?render():win()}}
+function over(){game.textContent="";game.className="card end";th.className="";th.textContent="💥";msg.textContent="Ciudad sin energía";
+game.appendChild(el("h2","","Game over"));game.appendChild(el("p","","La amenaza llegó a la ciudad con "+score+" puntos. Lee con calma las explicaciones y vuelve a intentarlo."));
+var r=el("button","go","Reintentar");r.onclick=start;game.appendChild(r)}
+function win(){hud();game.textContent="";game.className="card end";th.style.left="84%";th.textContent="🏆";th.className="bob";msg.textContent="¡Ciudad protegida!";beep(660,.15);setTimeout(function(){beep(990,.3)},160);
+game.appendChild(el("h2","","¡Ciudad protegida!"));game.appendChild(el("div","big",score+" puntos"));
+game.appendChild(el("p","","Edificios con energía: "+lives+" de 5. Aciertos al primer intento: "+first+" de "+CH.length+"."));
+game.appendChild(el("p","","Una clase abstracta define qué debe hacer cada módulo. Las clases hijas deciden cómo lo hacen."));
+var r=el("button","go","Jugar de nuevo");r.onclick=start;game.appendChild(r)}
+start();
+</script>
+</body>
+</html>
