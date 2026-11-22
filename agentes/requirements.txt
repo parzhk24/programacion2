@@ -1,0 +1,13 @@
+# Este proyecto está diseñado para funcionar con la librería estándar de Python (>= 3.8),
+# por lo que no requiere dependencias externas obligatorias para su ejecución base.
+#
+# Librerías estándar utilizadas:
+# - urllib.request, urllib.parse, urllib.error (peticiones HTTP a DuckDuckGo, Groq y Gemini)
+# - json (procesamiento de datos y APIs)
+# - os, sys (manejo de archivos del sistema y argumentos de consola)
+# - abc (Abstract Base Classes para principios de POO: abstracción y contratos)
+# - typing (tipado estático para robustez de POO)
+
+# Dependencias opcionales recomendadas para entornos de desarrollo y APIs externas avanzadas:
+requests>=2.31.0
+python-dotenv>=1.0.0
